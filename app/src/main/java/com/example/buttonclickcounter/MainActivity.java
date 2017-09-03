@@ -11,10 +11,9 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
 
     private EditText userInput;
-    private Button button;
     private TextView textView;
-    private int numTimesClicked = 0;
-
+    private static final String TAG = "MainActivity";
+    private final String TEXT_CONTENTS = "TextContents";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,26 +21,66 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         userInput = (EditText) findViewById(R.id.editText);
-        button = (Button) findViewById(R.id.button);
+        Button button = (Button) findViewById(R.id.button);
         textView = (TextView) findViewById(R.id.textView);
         textView.setText("");
         textView.setMovementMethod(new ScrollingMovementMethod());
 
         View.OnClickListener ourOnClickListener = new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                numTimesClicked = numTimesClicked + 1;
-                String result = "\nThe button got tapped " + numTimesClicked + " time";
-                if (numTimesClicked != 1) {
-                    result += "s";
-                }
-                else {
-                    result = result.substring(1);
-                }
+            public void onClick(View view) {
+                String result = userInput.getText().toString();
+                result = result + "\n";
                 textView.append(result);
+                userInput.setText("");
             }
         };
         button.setOnClickListener(ourOnClickListener);
 
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+//        String savedString = savedInstanceState.getString(TEXT_CONTENTS);
+//        textView.setText(savedString);
+        textView.setText(savedInstanceState.getString(TEXT_CONTENTS));
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putString(TEXT_CONTENTS, textView.getText().toString());
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
 }
